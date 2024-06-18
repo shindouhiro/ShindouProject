@@ -2,18 +2,13 @@ import Layout from '../components/layout/index'
 import { useRequest } from 'ahooks';
 import React from 'react';
 import { Table } from "antd";
+import { getUserAll } from '@/api/user';
 
 
 
-const fetchUserData = async () => {
-  const response = await fetch('http://localhost:4000/user');
-  if (!response.ok) {
-    throw new Error('Failed to fetch');
-  }
-  return response.json();
-};
 export default function About() {
-  const { data, loading } = useRequest(fetchUserData);
+  const { data, loading } = useRequest(getUserAll);
+  console.log(data)
 
 
   const columns = [
@@ -32,7 +27,7 @@ export default function About() {
     <Layout>
       <div>
         About
-        <Table dataSource={data} columns={columns} loading={loading} />;
+        <Table dataSource={data?.data ?? []} columns={columns} loading={loading} />;
       </div>
     </Layout>
   )
