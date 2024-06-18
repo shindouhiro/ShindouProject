@@ -10,12 +10,13 @@ interface CreateFormProps {
   username: string;
   password: string;
 }
-interface ActionType {
-  current: {
-    reload: () => void;
-  };
+
+interface Props {
+  actionRef?: any; // 或者更具体的类型，如果已知
+  username?: string;
+  password?: string;
 }
-const CreateForm: React.FC<{ actionRef: ActionType }> = ({actionRef}) => {
+const CreateForm: React.FC<Props> = ({actionRef}) => {
   const [form] = Form.useForm<CreateFormProps>();
   return (
     <ModalForm<CreateFormProps>

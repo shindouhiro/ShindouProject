@@ -1,9 +1,9 @@
 import { UserAllParams, UserParams } from '@/model/user'
 export const getUserAll = async (params: UserAllParams = {
-  page: 1,
+  current: 1,
   pageSize: 10,
   username: '',
-  passowrd: '',
+  password: '',
 }) => {
   const url = new URL('http://localhost:4000/user');
   Object.keys(params).forEach(key => url.searchParams.append(key, params[key] as string)); // 类型断言
