@@ -1,0 +1,19 @@
+version: '3.8'  # 可以根据需要调整版本
+
+services:
+  mysql:
+    image: mysql:8.0  # 使用 MySQL 8.0 镜像，可以根据需要更改版本
+    container_name: mysql_container  # 容器名称
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"  # 设置 root 用户的密码
+      MYSQL_DATABASE: "koa"  # 创建一个数据库
+      MYSQL_USER: "hikaru"  # 创建一个用户
+      MYSQL_PASSWORD: "123456"  # 用户的密码
+    ports:
+      - "3306:3306"  # 将容器的 3306 端口映射到主机的 3306 端口
+    volumes:
+      - mysql_data:/var/lib/mysql  # 持久化存储
+
+volumes:
+  mysql_data:
+
