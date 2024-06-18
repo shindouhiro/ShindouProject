@@ -27,10 +27,10 @@ export class UserController {
 
   @Get()
   async findAll(
-    @Query('page') page: number = 1,
+    @Query('current') current: number = 1,
     @Query('pageSize') pageSize: number = 10,) {
 
-    const { data, total } = await this.userService.findAll(page, pageSize);
+    const { data, total } = await this.userService.findAll(current, pageSize);
     console.log(data, total)
     return {
       data,

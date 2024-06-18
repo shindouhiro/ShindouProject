@@ -1,6 +1,6 @@
 export interface UserAllParams {
   pageSize: number;
-  page: number;
+  current: number;
   username: string;
   passowrd: string;
 }
