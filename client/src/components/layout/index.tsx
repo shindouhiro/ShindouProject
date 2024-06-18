@@ -3,6 +3,7 @@ import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 
+
 const { Header, Content, Sider } = Layout;
 
 const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
@@ -39,7 +40,9 @@ const App: React.FC<Props> = ({ children }) => {
 
   return (
     <Layout>
-      <Header style={{ display: 'flex', alignItems: 'center' }}>
+      <Header
+        className="flex items-center"
+      >
         <div className="demo-logo" />
         <Menu
           theme="dark"
@@ -50,7 +53,8 @@ const App: React.FC<Props> = ({ children }) => {
         />
       </Header>
       <Layout>
-        <Sider width={200} style={{ background: colorBgContainer }}>
+        <Sider width={200} style={{ background: colorBgContainer }}
+        >
           <Menu
             mode="inline"
             defaultSelectedKeys={['1']}
