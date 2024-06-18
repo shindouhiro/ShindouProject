@@ -25,8 +25,14 @@ export class UserController {
   }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  async findAll() {
+    const users = await this.userService.findAll();
+    return {
+      /// <reference path="" />
+      data: users,
+      success: true,
+      total: 10,
+    };
   }
 
   @Get(':id')
