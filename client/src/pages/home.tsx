@@ -2,46 +2,53 @@ import dynamic from "next/dynamic";
 const ProTable = dynamic(() => import("@ant-design/pro-table"), {
   ssr: false,
 });
+import type { ProColumns, ActionType, } from '@ant-design/pro-components';
 import { Button } from "antd";
 import { getUserAll } from "@/api/user";
-
+import { UserAllParams } from "@/model/user";
+import { useRef } from 'react';
+import {  PlusOutlined } from '@ant-design/icons';
+ type UserItem = {
+  id: number;
+  username: string;
+  password: string;
+}
 
 export default function Home() {
-
-  const columns = [
+  const actionRef = useRef<ActionType>();
+  const columns: ProColumns<UserItem>[] = [
     {
       title: '用户名',
       dataIndex: 'username',
-      key: 'username'
     },
     {
       title: '密码',
       dataIndex: 'password',
-      key: 'password'
     },
   ]
   return (
-    <div>Home
-
       <ProTable
-        columns={columns}
-        rowKey="user-key"
-        search={true}
+        columns={columns as ProColumns<Record<string, any>, unknown>[]}
+        rowKey="id"
+        actionRef={actionRef}
+        pagination={{
+          pageSize: 10,
+        }}
         toolBarRender={() => [
           <Button
-            type="primary"
-            key="primary"
+            key="button"
+            icon={<PlusOutlined />}
             onClick={() => {
+              actionRef.current?.reload();
             }}
+            type="primary"
           >
             新建
-          </Button>,
+          </Button>
         ]}
-        // params 是需要自带的参数
-        // 这个参数优先级更高，会覆盖查询表单的参数
-        // params={params}
-        request={getUserAll}
+        request={async (params) => {
+          return getUserAll(params as UserAllParams);
+        }}
       />
-    </div>
   )
 }

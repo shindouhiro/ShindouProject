@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
@@ -25,13 +26,16 @@ export class UserController {
   }
 
   @Get()
-  async findAll() {
-    const users = await this.userService.findAll();
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('pageSize') pageSize: number = 10,) {
+
+    const { data, total } = await this.userService.findAll(page, pageSize);
+    console.log(data, total)
     return {
-      /// <reference path="" />
-      data: users,
+      data,
       success: true,
-      total: 10,
+      total,
     };
   }
 

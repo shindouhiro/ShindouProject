@@ -19,12 +19,18 @@ devDependencies:
   '@ant-design/cssinjs':
     specifier: ^1.21.0
     version: 1.21.0(react-dom@18.3.1)(react@18.3.1)
+  '@ant-design/icons':
+    specifier: ^5.3.7
+    version: 5.3.7(react-dom@18.3.1)(react@18.3.1)
   '@ant-design/nextjs-registry':
     specifier: ^1.0.0
     version: 1.0.0(@ant-design/cssinjs@1.21.0)(antd@5.18.2)(next@14.2.4)(react-dom@18.3.1)(react@18.3.1)
   '@ant-design/pro-components':
     specifier: ^2.7.10
     version: 2.7.10(antd@5.18.2)(rc-field-form@1.44.0)(react-dom@18.3.1)(react@18.3.1)
+  '@ant-design/pro-table':
+    specifier: ^3.16.1
+    version: 3.16.1(antd@5.18.2)(rc-field-form@1.44.0)(react-dom@18.3.1)(react@18.3.1)
   '@types/node':
     specifier: ^20
     version: 20.14.4
