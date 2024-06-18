@@ -1,4 +1,7 @@
-import { ProTable } from '@ant-design/pro-components';
+import dynamic from "next/dynamic";
+const ProTable = dynamic(() => import("@ant-design/pro-table"), {
+  ssr: false,
+});
 
 const fetchUserData = async () => {
   const response = await fetch('http://localhost:4000/user');
