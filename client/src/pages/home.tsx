@@ -2,20 +2,10 @@ import dynamic from "next/dynamic";
 const ProTable = dynamic(() => import("@ant-design/pro-table"), {
   ssr: false,
 });
+import { Button } from "antd";
+import { getUserAll } from "@/api/user";
 
-const fetchUserData = async (params) => {
 
-  const url = new URL('http://localhost:4000/user');
-
-  // 添加查询参数
-  Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
-  const response = await fetch(url, params);
-
-  if (!response.ok) {
-    throw new Error('Failed to fetch');
-  }
-  return response.json();
-};
 export default function Home() {
 
   const columns = [
@@ -37,10 +27,20 @@ export default function Home() {
         columns={columns}
         rowKey="user-key"
         search={true}
+        toolBarRender={() => [
+          <Button
+            type="primary"
+            key="primary"
+            onClick={() => {
+            }}
+          >
+            新建
+          </Button>,
+        ]}
         // params 是需要自带的参数
         // 这个参数优先级更高，会覆盖查询表单的参数
         // params={params}
-        request={fetchUserData}
+        request={getUserAll}
       />
     </div>
   )
