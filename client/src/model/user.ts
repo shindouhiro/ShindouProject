@@ -2,5 +2,8 @@ export interface UserAllParams {
   pageSize: number;
   current: number;
   username: string;
-  passowrd: string;
+  password: string;
 }
+
+
+export  type UserParams  = Pick<UserAllParams, 'username' | 'password'>

@@ -3,11 +3,10 @@ const ProTable = dynamic(() => import("@ant-design/pro-table"), {
   ssr: false,
 });
 import type { ProColumns, ActionType, } from '@ant-design/pro-components';
-import { Button } from "antd";
 import { getUserAll } from "@/api/user";
 import { UserAllParams } from "@/model/user";
 import { useRef } from 'react';
-import {  PlusOutlined } from '@ant-design/icons';
+import CreateForm from "@/components/users/CreateForm";
  type UserItem = {
   id: number;
   username: string;
@@ -35,16 +34,7 @@ export default function Home() {
           pageSize: 10,
         }}
         toolBarRender={() => [
-          <Button
-            key="button"
-            icon={<PlusOutlined />}
-            onClick={() => {
-              actionRef.current?.reload();
-            }}
-            type="primary"
-          >
-            新建
-          </Button>
+           <CreateForm actionRef={actionRef}/>,
         ]}
         request={async (params) => {
           return getUserAll(params as UserAllParams);
