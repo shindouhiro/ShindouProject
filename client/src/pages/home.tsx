@@ -8,6 +8,7 @@ import { UserAllParams } from "@/model/user";
 import { useRef, useState } from 'react';
 import { message, Popconfirm } from 'antd';
 import CreateForm from "@/components/users/CreateForm";
+import Head from 'next/head';
 type UserItem = {
   id: number;
   username: string;
@@ -67,22 +68,28 @@ export default function Home() {
     },
   ]
   return (
-    <ProTable
-      columns={columns as ProColumns<Record<string, any>, unknown>[]}
-      rowKey="id"
-      actionRef={actionRef}
-      pagination={{
-        pageSize: 10,
-      }}
-      toolBarRender={() => [
-        <CreateForm actionRef={actionRef} visible={visible} setVisible={setVisible} userItem={userItem} />,
-      ]}
-      request={async (params) => {
-        const result = await getUserAll(params as UserAllParams);
-        return {
-          data: result.list
-        }
-      }}
-    />
+    <>
+    <Head>
+      <title>用户列表</title>
+      <link rel="icon" href="/favicon.ico"  />
+    </Head>
+      <ProTable
+        columns={columns as ProColumns<Record<string, any>, unknown>[]}
+        rowKey="id"
+        actionRef={actionRef}
+        pagination={{
+          pageSize: 10,
+        }}
+        toolBarRender={() => [
+          <CreateForm actionRef={actionRef} visible={visible} setVisible={setVisible} userItem={userItem} />,
+        ]}
+        request={async (params) => {
+          const result = await getUserAll(params as UserAllParams);
+          return {
+            data: result.list
+          }
+        }}
+      />
+    </>
   )
 }
