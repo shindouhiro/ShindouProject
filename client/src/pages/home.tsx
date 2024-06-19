@@ -84,9 +84,10 @@ export default function Home() {
           <CreateForm actionRef={actionRef} visible={visible} setVisible={setVisible} userItem={userItem} />,
         ]}
         request={async (params) => {
-          const result = await getUserAll(params as UserAllParams);
+          const {list = [],total= 0 } = await getUserAll(params as UserAllParams);
           return {
-            data: result.list
+            data: list,
+            total
           }
         }}
       />
