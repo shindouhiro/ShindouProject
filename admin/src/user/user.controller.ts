@@ -31,7 +31,6 @@ export class UserController {
     @Query('pageSize') pageSize: number = 10,) {
 
     const { data, total } = await this.userService.findAll(current, pageSize);
-    console.log(data, total)
     return {
       data,
       success: true,
@@ -50,7 +49,13 @@ export class UserController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  async remove(@Param('id') id: string) {
+    console.log({ id,key: 'vvvv' })
+    const result =await this.userService.remove(+id);
+    console.log({ result })
+    return {
+      result,
+      success: true,
+    }
   }
 }

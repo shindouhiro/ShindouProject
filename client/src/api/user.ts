@@ -57,3 +57,15 @@ export const UpdateUser = async (userId: number,data: UserParams) => {
   }
   return response.json();
 };
+
+export const DeleteUser = async (userId: number) => {
+  const url = new URL(`http://localhost:4000/user/${userId}`);
+  const response = await fetch(url, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to delete user');
+  }
+  return response.json();
+};

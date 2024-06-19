@@ -3,9 +3,10 @@ const ProTable = dynamic(() => import("@ant-design/pro-table"), {
   ssr: false,
 });
 import type { ProColumns, ActionType, } from '@ant-design/pro-components';
-import { getUserAll } from "@/api/user";
+import { DeleteUser, getUserAll } from "@/api/user";
 import { UserAllParams } from "@/model/user";
 import { useRef, useState } from 'react';
+import { message, Popconfirm } from 'antd';
 import CreateForm from "@/components/users/CreateForm";
  type UserItem = {
   id: number;
@@ -40,6 +41,17 @@ export default function Home() {
         >
           编辑
         </a>,
+        <Popconfirm
+        title="Delete the task"
+        description="Are you sure to delete this task?"
+        onConfirm={async () => {
+         await DeleteUser(record.id)
+         message.success("删除成功")
+         actionRef.current?.reload();
+        }}
+      >
+        <a className="text-red-500">删除</a>
+      </Popconfirm>
         // <a href={record.url} target="_blank" rel="noopener noreferrer" key="view">
         //   查看
         // </a>,
