@@ -32,18 +32,27 @@ export class UserController {
     @Query('username') username: string,
     @Query('password') password: string, 
   ) {
-
-    const { data, total } = await this.userService.findAll({
-      current, 
-      pageSize,
-      username,
-      password
-    });
-    return {
-      list: data,
-      success: true,
-      total,
-    };
+    try {
+      const { data, total } = await this.userService.findAll({
+        current, 
+        pageSize,
+        username,
+        password
+      });
+      return {
+        list: data,
+        success: true,
+        total,
+      };
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      return {
+        list: [],
+        success: false,
+        total: 0,
+        error: error.message || 'An unexpected error occurred',
+      };
+    }
   }
 
   @Get(':id')
