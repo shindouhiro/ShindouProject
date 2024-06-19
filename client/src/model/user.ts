@@ -1,4 +1,4 @@
-export interface UserAllParams {
+export interface UserAllParams extends RequestInit {
   pageSize: number;
   current: number;
   username: string;

@@ -5,6 +5,7 @@ import {
   ProFormText,
 } from '@ant-design/pro-components';
 import { Button, Form, message } from 'antd';
+import { useEffect } from 'react';
 
 interface CreateFormProps {
   username: string;
@@ -13,26 +14,39 @@ interface CreateFormProps {
 
 interface Props {
   actionRef?: any; // 或者更具体的类型，如果已知
-  username?: string;
-  password?: string;
+  userItem?: {
+    id: number;
+    username: string;
+    password: string;
+  } | undefined;
+  visible: boolean;
+  setVisible: (visible: boolean) => void;
 }
-const CreateForm: React.FC<Props> = ({actionRef}) => {
+const CreateForm: React.FC<Props> = ({ actionRef, visible, setVisible,userItem }) => {
   const [form] = Form.useForm<CreateFormProps>();
+  useEffect(() => {
+    console.log(userItem);
+    form.setFieldsValue({
+     ...userItem
+    });
+  }, [form,visible]);
   return (
     <ModalForm<CreateFormProps>
       title="新建表单"
       trigger={
-        <Button type="primary">
+        <Button type="primary" onClick={() => setVisible(true)}>
           <PlusOutlined />
           新建表单
         </Button>
       }
+      open={visible}
       form={form}
       autoFocusFirstInput
       modalProps={{
         destroyOnClose: true,
         onCancel: () => console.log('run'),
       }}
+      onOpenChange={setVisible}
       submitTimeout={2000}
       onFinish={async (values) => {
         await CreateUser(values)
@@ -44,12 +58,10 @@ const CreateForm: React.FC<Props> = ({actionRef}) => {
       <ProFormText
         name="username"
         label="用户名"
-        initialValue="xxxx项目"
       />
       <ProFormText
         name="password"
         label="密码"
-        initialValue="启途"
       />
     </ModalForm>
   );
