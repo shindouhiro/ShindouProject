@@ -28,9 +28,17 @@ export class UserController {
   @Get()
   async findAll(
     @Query('current') current: number = 1,
-    @Query('pageSize') pageSize: number = 10,) {
+    @Query('pageSize') pageSize: number = 10,
+    @Query('username') username: string,
+    @Query('password') password: string, 
+  ) {
 
-    const { data, total } = await this.userService.findAll(current, pageSize);
+    const { data, total } = await this.userService.findAll({
+      current, 
+      pageSize,
+      username,
+      password
+    });
     return {
       list: data,
       success: true,

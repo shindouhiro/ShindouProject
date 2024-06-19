@@ -17,11 +17,22 @@ export class UserService {
   }
 
 
-  async findAll(page: number = 1, limit: number = 10): Promise<{ data: User[], total: number }> {
-    const skip = (page - 1) * limit;
+  async findAll({
+    current,
+    pageSize,
+    username,
+    password
+  }: {
+    current: number;
+    pageSize: number;
+    username: string;
+    password: string;
+  }): Promise<{ data: User[], total: number }> {
+    const skip = (current - 1) * pageSize;
     const [data, total] = await this.userRepository.findAndCount({
+      where: { username, password },
       skip,
-      take: limit,
+      take: pageSize,
     });
     return {
       total,
