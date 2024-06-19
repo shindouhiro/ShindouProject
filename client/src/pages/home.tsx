@@ -15,7 +15,7 @@ import CreateForm from "@/components/users/CreateForm";
 
 export default function Home() {
   const [visible, setVisible] = useState(false);
-  const [userItem, setUserItem] = useState<UserItem | undefined>();
+  const [userItem, setUserItem] = useState<UserItem | null>();
   const actionRef = useRef<ActionType>();
   const columns: ProColumns<UserItem>[] = [
     {

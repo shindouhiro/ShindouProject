@@ -1,11 +1,11 @@
-import { CreateUser } from '@/api/user';
+import { CreateUser,  UpdateUser } from '@/api/user';
 import { PlusOutlined } from '@ant-design/icons';
 import {
   ModalForm,
   ProFormText,
 } from '@ant-design/pro-components';
 import { Button, Form, message } from 'antd';
-import { useEffect } from 'react';
+import {  useEffect } from 'react';
 
 interface CreateFormProps {
   username: string;
@@ -18,7 +18,7 @@ interface Props {
     id: number;
     username: string;
     password: string;
-  } | undefined;
+  } | null;
   visible: boolean;
   setVisible: (visible: boolean) => void;
 }
@@ -49,7 +49,8 @@ const CreateForm: React.FC<Props> = ({ actionRef, visible, setVisible,userItem }
       onOpenChange={setVisible}
       submitTimeout={2000}
       onFinish={async (values) => {
-        await CreateUser(values)
+        const userId = userItem?.id 
+        userId ?   await UpdateUser(userId,values) : await CreateUser(values) 
         message.success('提交成功');
         actionRef?.current?.reload();
         return true;

@@ -39,3 +39,21 @@ export const CreateUser = async (data: UserParams) => {
   }
   return response.json();
 };
+
+
+
+export const UpdateUser = async (userId: number,data: UserParams) => {
+  const url = new URL(`http://localhost:4000/user/${userId}`);
+  const response = await fetch(url, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to create user');
+  }
+  return response.json();
+};
