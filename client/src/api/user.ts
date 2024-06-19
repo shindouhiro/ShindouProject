@@ -4,16 +4,24 @@ export const getUserAll = async (params: UserAllParams = {
   pageSize: 10,
   username: '',
   password: '',
-}) => {
+}, formData: Object = {}) => {
+  console.log(formData)
   const url = new URL('http://localhost:4000/user');
-  // Object.keys(params).forEach(key => url.searchParams.append(key, params[key] as string)); // 类型断言
-  // Object.keys(params).forEach((key: keyof  UserAllParams) => url.searchParams.append(key, params[key] as string))
   Object.keys(params).forEach(key =>
     url.searchParams.append(
-        key,
-        String(params[key as keyof UserAllParams] as string | number)
+      key,
+      String(params[key as keyof UserAllParams] as string | number)
     )
-);
+  );
+
+  Object.entries(formData).forEach(([key, value]) => {
+    if (value) {
+      url.searchParams.append(
+        key,
+        value
+      )
+    }
+  });
   const response = await fetch(url, params);
 
   if (!response.ok) {
@@ -42,7 +50,7 @@ export const CreateUser = async (data: UserParams) => {
 
 
 
-export const UpdateUser = async (userId: number,data: UserParams) => {
+export const UpdateUser = async (userId: number, data: UserParams) => {
   const url = new URL(`http://localhost:4000/user/${userId}`);
   const response = await fetch(url, {
     method: 'PATCH',

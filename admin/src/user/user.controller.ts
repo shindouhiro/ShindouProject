@@ -32,7 +32,7 @@ export class UserController {
 
     const { data, total } = await this.userService.findAll(current, pageSize);
     return {
-      data,
+      list: data,
       success: true,
       total,
     };
