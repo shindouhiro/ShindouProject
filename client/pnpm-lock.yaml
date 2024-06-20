@@ -25,6 +25,9 @@ devDependencies:
   '@ant-design/pro-components':
     specifier: ^2.7.10
     version: 2.7.10(antd@5.18.2)(rc-field-form@1.44.0)(react-dom@18.3.1)(react@18.3.1)
+  '@ant-design/pro-layout':
+    specifier: ^7.19.8
+    version: 7.19.8(antd@5.18.2)(react-dom@18.3.1)(react@18.3.1)
   '@ant-design/pro-table':
     specifier: ^3.16.1
     version: 3.16.1(antd@5.18.2)(rc-field-form@1.44.0)(react-dom@18.3.1)(react@18.3.1)

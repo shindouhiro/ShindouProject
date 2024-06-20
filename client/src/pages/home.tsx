@@ -9,6 +9,7 @@ import { useRef, useState } from 'react';
 import { message, Popconfirm } from 'antd';
 import CreateForm from "@/components/users/CreateForm";
 import Head from 'next/head';
+import Layout from "@/components/layout";
 type UserItem = {
   id: number;
   username: string;
@@ -68,7 +69,7 @@ export default function Home() {
     },
   ]
   return (
-    <>
+    <Layout>
     <Head>
       <title>用户列表</title>
       <link rel="icon" href="/favicon.ico"  />
@@ -91,6 +92,6 @@ export default function Home() {
           }
         }}
       />
-    </>
+    </Layout>
   )
 }

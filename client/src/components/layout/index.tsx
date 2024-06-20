@@ -1,89 +1,171 @@
-import React from 'react';
-import { LaptopOutlined, NotificationOutlined, UserOutlined } from '@ant-design/icons';
-import type { MenuProps } from 'antd';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import {
+  GithubFilled,
+  InfoCircleFilled,
+  PlusCircleFilled,
+  QuestionCircleFilled,
+  SearchOutlined,
+  LogoutOutlined
+} from '@ant-design/icons';
+import type { ProSettings } from '@ant-design/pro-components';
+import { PageContainer, ProCard,} from '@ant-design/pro-components';
+import { Input,Dropdown } from 'antd';
+import { useState } from 'react';
+import defaultProps from './_defaultProps';
+import dynamic from "next/dynamic";
+// 使用动态加载的方式，可以使部分组件在客户端渲染完成后再执行
+const ProLayout = dynamic(() => import("@ant-design/pro-layout"), {
+  ssr: false,
+});
+export default ({children}: {children: React.ReactNode}) => {
+  const settings: ProSettings | undefined = {
+    fixSiderbar: true,
+    layout: 'mix',
+    splitMenus: true,
+  };
 
-
-const { Header, Content, Sider } = Layout;
-
-const items1: MenuProps['items'] = ['1', '2', '3'].map((key) => ({
-  key,
-  label: `nav ${key}`,
-}));
-
-const items2: MenuProps['items'] = [UserOutlined, LaptopOutlined, NotificationOutlined].map(
-  (icon, index) => {
-    const key = String(index + 1);
-
-    return {
-      key: `sub${key}`,
-      icon: React.createElement(icon),
-      label: `subnav ${key}`,
-
-      children: new Array(4).fill(null).map((_, j) => {
-        const subKey = index * 4 + j + 1;
-        return {
-          key: subKey,
-          label: `option${subKey}`,
-        };
-      }),
-    };
-  },
-);
-interface Props {
-  children: React.ReactNode
-}
-const App: React.FC<Props> = ({ children }) => {
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  const [pathname, setPathname] = useState('/list/sub-page/sub-sub-page1');
 
   return (
-    <Layout>
-      <Header
-        className="flex items-center"
+    <div
+      id="test-pro-layout"
+      style={{
+        height: '100vh',
+      }}
+    >
+      <ProLayout
+        bgLayoutImgList={[
+          {
+            src: 'https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png',
+            left: 85,
+            bottom: 100,
+            height: '303px',
+          },
+          {
+            src: 'https://img.alicdn.com/imgextra/i2/O1CN01O4etvp1DvpFLKfuWq_!!6000000000279-2-tps-609-606.png',
+            bottom: -68,
+            right: -45,
+            height: '303px',
+          },
+          {
+            src: 'https://img.alicdn.com/imgextra/i3/O1CN018NxReL1shX85Yz6Cx_!!6000000005798-2-tps-884-496.png',
+            bottom: 0,
+            left: 0,
+            width: '331px',
+          },
+        ]}
+        {...defaultProps}
+        location={{
+          pathname,
+        }}
+        menu={{
+          type: 'group',
+        }}
+        avatarProps={{
+          src: 'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+          size: 'small',
+          title: '七妮妮',
+          render: (props, dom) => {
+            return (
+              <Dropdown
+                menu={{
+                  items: [
+                    {
+                      key: 'logout',
+                      icon: <LogoutOutlined />,
+                      label: '退出登录',
+                    },
+                  ],
+                }}
+              >
+                {dom}
+              </Dropdown>
+            );
+          },
+        }}
+        actionsRender={(props) => {
+          if (props.isMobile) return [];
+          return [
+            props.layout !== 'side' && document.body.clientWidth > 1400 ? (
+              <div
+                key="SearchOutlined"
+                aria-hidden
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  marginInlineEnd: 24,
+                }}
+                onMouseDown={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                }}
+              >
+                <Input
+                  style={{
+                    borderRadius: 4,
+                    marginInlineEnd: 12,
+                    backgroundColor: 'rgba(0,0,0,0.03)',
+                  }}
+                  prefix={
+                    <SearchOutlined
+                      style={{
+                        color: 'rgba(0, 0, 0, 0.15)',
+                      }}
+                    />
+                  }
+                  placeholder="搜索方案"
+                  variant="borderless"
+                />
+                <PlusCircleFilled
+                  style={{
+                    color: 'var(--ant-primary-color)',
+                    fontSize: 24,
+                  }}
+                />
+              </div>
+            ) : undefined,
+            <InfoCircleFilled key="InfoCircleFilled" />,
+            <QuestionCircleFilled key="QuestionCircleFilled" />,
+            <GithubFilled key="GithubFilled" />,
+          ];
+        }}
+        menuFooterRender={(props) => {
+          if (props?.collapsed) return undefined;
+          return (
+            <div
+              style={{
+                textAlign: 'center',
+                paddingBlockStart: 12,
+              }}
+            >
+              <div>© 2021 Made with love</div>
+              <div>by Ant Design</div>
+            </div>
+          );
+        }}
+        onMenuHeaderClick={(e) => console.log(e)}
+        menuItemRender={(item, dom) => (
+          <div
+            onClick={() => {
+              setPathname(item.path || '/welcome');
+            }}
+          >
+            {dom}
+          </div>
+        )}
+        {...settings}
       >
-        <div className="demo-logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={['2']}
-          items={items1}
-          style={{ flex: 1, minWidth: 0 }}
-        />
-      </Header>
-      <Layout>
-        <Sider width={200} style={{ background: colorBgContainer }}
-        >
-          <Menu
-            mode="inline"
-            defaultSelectedKeys={['1']}
-            defaultOpenKeys={['sub1']}
-            style={{ height: '100%', borderRight: 0 }}
-            items={items2}
-          />
-        </Sider>
-        <Layout style={{ padding: '0 24px 24px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
-            <Breadcrumb.Item>List</Breadcrumb.Item>
-            <Breadcrumb.Item>App</Breadcrumb.Item>
-          </Breadcrumb>
-          <Content
+        <PageContainer>
+          <ProCard
             style={{
-              padding: 24,
-              margin: 0,
-              minHeight: 280,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
+              height: '100vh',
+              minHeight: 800,
             }}
           >
             {children}
-          </Content>
-        </Layout>
-      </Layout>
-    </Layout>
+            <div />
+          </ProCard>
+        </PageContainer>
+      </ProLayout>
+    </div>
   );
 };
-
-export default App;
