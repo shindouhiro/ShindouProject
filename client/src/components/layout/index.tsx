@@ -99,28 +99,7 @@ export default ({children}: {children: React.ReactNode}) => {
                   e.preventDefault();
                 }}
               >
-                <Input
-                  style={{
-                    borderRadius: 4,
-                    marginInlineEnd: 12,
-                    backgroundColor: 'rgba(0,0,0,0.03)',
-                  }}
-                  prefix={
-                    <SearchOutlined
-                      style={{
-                        color: 'rgba(0, 0, 0, 0.15)',
-                      }}
-                    />
-                  }
-                  placeholder="搜索方案"
-                  variant="borderless"
-                />
-                <PlusCircleFilled
-                  style={{
-                    color: 'var(--ant-primary-color)',
-                    fontSize: 24,
-                  }}
-                />
+              
               </div>
             ) : undefined,
             <InfoCircleFilled key="InfoCircleFilled" />,
@@ -128,20 +107,7 @@ export default ({children}: {children: React.ReactNode}) => {
             <GithubFilled key="GithubFilled" />,
           ];
         }}
-        menuFooterRender={(props) => {
-          if (props?.collapsed) return undefined;
-          return (
-            <div
-              style={{
-                textAlign: 'center',
-                paddingBlockStart: 12,
-              }}
-            >
-              <div>© 2021 Made with love</div>
-              <div>by Ant Design</div>
-            </div>
-          );
-        }}
+       
         onMenuHeaderClick={(e) => console.log(e)}
         menuItemRender={(item, dom) => (
           <div
