@@ -37,6 +37,10 @@ const buildUrlWithParams = (url: string, params?: Record<string, any>): string =
 
 const request = async (url: string, options: RequestOptions = {}) => {
   const { method = 'GET', headers = {}, body, params } = options;
+  const token = localStorage.getItem('token');
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
   const config: RequestInit = {
     method,
     headers: { ...defaultHeaders, ...headers },
