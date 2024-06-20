@@ -1,17 +1,16 @@
 import {
   GithubFilled,
   InfoCircleFilled,
-  PlusCircleFilled,
   QuestionCircleFilled,
-  SearchOutlined,
   LogoutOutlined
 } from '@ant-design/icons';
 import type { ProSettings } from '@ant-design/pro-components';
 import { PageContainer, ProCard,} from '@ant-design/pro-components';
-import { Input,Dropdown } from 'antd';
-import { useState } from 'react';
+import {Dropdown } from 'antd';
 import defaultProps from './_defaultProps';
 import dynamic from "next/dynamic";
+import { useRouter } from 'next/router';
+import { useLocalStorageState } from 'ahooks';
 // 使用动态加载的方式，可以使部分组件在客户端渲染完成后再执行
 const ProLayout = dynamic(() => import("@ant-design/pro-layout"), {
   ssr: false,
@@ -23,8 +22,10 @@ export default ({children}: {children: React.ReactNode}) => {
     splitMenus: true,
   };
 
-  const [pathname, setPathname] = useState('/list/sub-page/sub-sub-page1');
-
+  const [pathname, setPathname] = useLocalStorageState('use-local-storage-state-demo2', {
+    defaultValue: '/list/sub-page/sub-sub-page1',
+  });
+  const router = useRouter();
   return (
     <div
       id="test-pro-layout"
@@ -108,15 +109,19 @@ export default ({children}: {children: React.ReactNode}) => {
           ];
         }}
        
-        onMenuHeaderClick={(e) => console.log(e)}
+        onMenuHeaderClick={(e) => {
+          console.log(e);
+        }}
         menuItemRender={(item, dom) => (
-          <div
+          <a
             onClick={() => {
+              console.log({item});
               setPathname(item.path || '/welcome');
+              item.isLink && router.push(item.path as string);
             }}
           >
             {dom}
-          </div>
+          </a>
         )}
         {...settings}
       >
