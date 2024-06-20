@@ -1,7 +1,10 @@
 // pages/index.tsx
 import Head from 'next/head';
+import { useRouter } from 'next/router';
 
 export default function IndexPage() {
+  const router = useRouter();
+  console.log(router);
   return (
     <>
       <Head>

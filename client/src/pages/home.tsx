@@ -17,7 +17,7 @@ type UserItem = {
 
 export default function Home() {
   const [visible, setVisible] = useState(false);
-  const [userItem, setUserItem] = useState<UserItem | null>();
+  const [userItem, setUserItem] = useState<UserItem>();
   const actionRef = useRef<ActionType>();
   const columns: ProColumns<UserItem>[] = [
     {

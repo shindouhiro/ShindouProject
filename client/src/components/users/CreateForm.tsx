@@ -18,7 +18,7 @@ interface Props {
     id: number;
     username: string;
     password: string;
-  } | null;
+  } 
   visible: boolean;
   setVisible: (visible: boolean) => void;
 }

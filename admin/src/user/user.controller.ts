@@ -67,7 +67,6 @@ export class UserController {
 
   @Delete(':id')
   async remove(@Param('id') id: string) {
-    console.log({ id,key: 'vvvv' })
     const result =await this.userService.remove(+id);
     console.log({ result })
     return {
