@@ -17,12 +17,16 @@ import {
 import { Space, Tabs, message, theme } from 'antd';
 import type { CSSProperties } from 'react';
 import { useState } from 'react';
+import { signIn } from 'next-auth/react';
+import { login } from '@/api/auth';
+import { useRouter } from 'next/router';
 
 type LoginType = 'phone' | 'account';
 
 export default () => {
   const { token } = theme.useToken();
   const [loginType, setLoginType] = useState<LoginType>('phone');
+  const router = useRouter()
 
   const iconStyles: CSSProperties = {
     marginInlineStart: '16px',
@@ -36,6 +40,14 @@ export default () => {
     <ProConfigProvider hashed={false}>
       <div style={{ backgroundColor: token.colorBgContainer }}>
         <LoginForm
+          onFinish={async (value) => {
+            const { username, password } = value
+            const { access_token = '' } = await login({ username, password })
+            if (access_token) {
+              localStorage.setItem('token', access_token)
+              router.push('/home')
+            }
+          }}
           logo="https://github.githubassets.com/favicons/favicon.png"
           title="Github"
           subTitle="全球最大的代码托管平台"
@@ -172,7 +184,8 @@ export default () => {
               marginBlockEnd: 24,
             }}
           >
-            <ProFormCheckbox noStyle name="autoLogin">
+            <ProFormCheckbox noStyle name="autoLogin"
+            >
               自动登录
             </ProFormCheckbox>
             <a
@@ -183,6 +196,14 @@ export default () => {
               忘记密码
             </a>
           </div>
+
+
+          <div onClick={() => {
+            signIn('credentials', {
+              username: 'admin',
+              password: 'ant.design',
+            })
+          }}>测试</div>
         </LoginForm>
       </div>
     </ProConfigProvider>

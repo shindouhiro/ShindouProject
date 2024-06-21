@@ -6,26 +6,34 @@ import {
   Patch,
   Param,
   Delete,
-  Query
+  Query,
+  UseGuards
 } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { ApiPaginationAndAuthQueries } from 'src/common/decorators/swagger';
 @ApiTags('用户模块')
+@ApiBearerAuth()
+@UseGuards(AuthGuard)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) { }
-
-  @Post()
   @ApiOperation({
-    summary: '添加用户', // 接口描述信息
+    summary: '添加用户',
   })
+  @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
+  @ApiOperation({
+    summary: '用户列表',
+  })
   @Get()
+  @ApiPaginationAndAuthQueries()
   async findAll(
     @Query('current') current: number = 1,
     @Query('pageSize') pageSize: number = 10,
@@ -55,16 +63,25 @@ export class UserController {
     }
   }
 
+  @ApiOperation({
+    summary: '查找指定用户',
+  })
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.userService.findOne(+id);
   }
 
+  @ApiOperation({
+    summary: '修改用户',
+  })
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(+id, updateUserDto);
   }
 
+  @ApiOperation({
+    summary: '删除用户',
+  })
   @Delete(':id')
   async remove(@Param('id') id: string) {
     const result =await this.userService.remove(+id);
