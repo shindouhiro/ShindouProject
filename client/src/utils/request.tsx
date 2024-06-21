@@ -17,7 +17,13 @@ interface RequestOptions {
 const handleResponse = async (response: Response) => {
   if (!response.ok) {
     const error = await response.json();
-    throw new Error(error.message || 'Something went wrong');
+    switch (response.status) {
+      case 401:
+        window.location.href = '/login';
+        break;
+      default:
+        throw new Error(error.message || 'Something went wrong');
+    }
   }
   return response.json();
 };
@@ -56,7 +62,8 @@ const request = async (url: string, options: RequestOptions = {}) => {
     const response = await fetch(fetchUrl, config);
     return await handleResponse(response);
   } catch (error) {
-    handleError(error  as Error);
+    console.log({ error })
+    handleError(error as Error);
   }
 };
 

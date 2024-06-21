@@ -7,7 +7,14 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  signIn(@Body() signInDto: Record<string, any>) {
-    return this.authService.signIn(signInDto.username, signInDto.password);
+  async signIn(@Body() signInDto: Record<string, any>) {
+    try {
+     const { access_token } = await this.authService.signIn(signInDto.username, signInDto.password);
+     return { 
+      token: access_token 
+    };
+    }catch (error) {
+      throw new Error(error.message);
+    }
   }
 }
