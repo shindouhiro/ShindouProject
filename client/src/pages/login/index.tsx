@@ -20,13 +20,14 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { login } from '@/api/auth';
 import { useRouter } from 'next/router';
-
+import { useDispatch } from 'react-redux';
 type LoginType = 'phone' | 'account';
 
 export default () => {
   const { token } = theme.useToken();
   const [loginType, setLoginType] = useState<LoginType>('phone');
   const router = useRouter()
+  const dispatch = useDispatch();
 
   const iconStyles: CSSProperties = {
     marginInlineStart: '16px',
