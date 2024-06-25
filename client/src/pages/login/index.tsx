@@ -42,9 +42,9 @@ export default () => {
         <LoginForm
           onFinish={async (value) => {
             const { username, password } = value
-            const { access_token = '' } = await login({ username, password })
-            if (access_token) {
-              localStorage.setItem('token', access_token)
+            const { token = '' } = await login({ username, password })
+            if (token) {
+              localStorage.setItem('token', token)
               router.push('/home')
             }
           }}
